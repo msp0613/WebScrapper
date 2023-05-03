@@ -1,7 +1,7 @@
 <?php
 
-function getMediaExpertHTMLContent($url = 'https://www.morele.net/kategoria/laptopy-31/'){ //funkcja majaca za zadanie pobranie danych ze strony euro i przetworzenie ich do stanu w ktorym beda sie nadawaly do wyswietlania na stronie
-    $euroHTML = file_get_html($url); //pobranie danych ze strony euro
+function getMediaExpertHTMLContent($url = 'https://www.morele.net/kategoria/laptopy-31/'){ 
+    $euroHTML = file_get_html($url); 
 
     $products = [];
 
