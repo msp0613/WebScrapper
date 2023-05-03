@@ -20,8 +20,8 @@ function getEuroHTMLContent($url = 'https://www.euro.com.pl/laptopy-i-netbooki.b
             array_push($attribiutes, trim(preg_replace('/\s\s+/', ' ', $attribute->plaintext)));  
         }
 
-        $shopUrl = 'https://www.euro.com.pl' . $product->find('.product-name a')[0]->href; //pobieramy link do produkty
-        //dodajemy do tablicy nowy obiekt
+        $shopUrl = 'https://www.euro.com.pl' . $product->find('.product-name a')[0]->href; 
+       
         array_push($products, new ScrapperItem($title, $image, $price, $attribiutes,  $shopUrl, 'https://f00.esfr.pl/img/desktop/euro/logo.png'));
     }
 
