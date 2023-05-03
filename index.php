@@ -1,25 +1,23 @@
 <?php
-    require_once('simple_html_dom.php');//dołączamy biblioeke php do tego projektu...
-    //biblioteka sluzy do przeszukiwania kodu html pod katem wyszukiwanych wartosci
+    require_once('simple_html_dom.php');
 
-    require_once('ScrapperItem.php');//dołaczamy klasa na podstwie ktorej tworzymy obiekty poszczegolnych produktow 
+    require_once('ScrapperItem.php');
 
-    require_once('euroScrapper.php');//pliki dołączamy za pomoca ktorego pobieramy dane z euro agd
-    require_once('mediaExpertScrapper.php');//...z media expert
+    require_once('euroScrapper.php');
+    require_once('mediaExpertScrapper.php');t
 
-    if(count($_GET) > 0){ //sprawdzamy czy ktos uzyl wyszukiwarki
-        $mediaExpertURL = generateURLForMediaExpertScrapping($_GET); // jezeli tak generujemy adres url media expert do pobrania produktow z tego sklepu,jako parametr przekazujemy wszystkie wartosci z wyszukiwarki
+    if(count($_GET) > 0){ 
+        $mediaExpertURL = generateURLForMediaExpertScrapping($_GET); 
 
         if($mediaExpertURL !== false){
-            $mediaExpertProducts = getMediaExpertHTMLContent($mediaExpertURL); //jesli adrs media epert jest rozny od false
-            //bedzie rowny false tylko wtedy gdy uzytkownik nie wybierze sklepu z wyszukiwarki 
+            $mediaExpertProducts = getMediaExpertHTMLContent($mediaExpertURL); 
+           
         }
         else{
             $mediaExpertProducts = [];
-            //nie bedzie zadnych produktow nie bedzie niczego
         }
 
-        $euroURL = generateURLForEuroScrapping($_GET); //ta sama historia 
+        $euroURL = generateURLForEuroScrapping($_GET); 
 
         if($euroURL !== false){
             $euroProducts = getEuroHTMLContent($euroURL);
@@ -30,15 +28,14 @@
 
     }
     else{
-        $euroProducts = getEuroHTMLContent(); //pobieramy domyslne produkty z euro
-        $mediaExpertProducts = getMediaExpertHTMLContent(); //pobieramy z media
-        // tylko wtedy gdy nic nie wybral nie wybral zadnego sklepu
+        $euroProducts = getEuroHTMLContent();
+        $mediaExpertProducts = getMediaExpertHTMLContent();
     }
     
 
 
-    $products = array_merge($euroProducts, $mediaExpertProducts);   //laczymy w jedna tablice wszystkie produkty z tablic z euro i media
-    shuffle($products); // miwszzamy tablice zeby wyswietamy sie w lososowej kolejnosci
+    $products = array_merge($euroProducts, $mediaExpertProducts);  
+    shuffle($products); 
 ?>
 
 <!DOCTYPE html>
