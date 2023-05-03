@@ -81,7 +81,7 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="mb-2">Przekątna ekranu</label>
+                    <label class="mb-2">Przekątn ekranu</label>
                     <select class="form-control" name="screen">
                         <option disabled selected>Wybierz</option>
                         <option <?php if(isset($_GET['screen']) && $_GET['screen'] === '10'): ?> selected <?php endif; ?> value="10">10 cali</option>
