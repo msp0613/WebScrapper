@@ -1,23 +1,23 @@
 <?php
 
-function getEuroHTMLContent($url = 'https://www.euro.com.pl/laptopy-i-netbooki.bhtml'){ //funkcja majaca za zadanie pobranie danych ze strony euro i przetworzenie ich do stanu w ktorym beda sie nadawaly do wyswietlania na stronie
-    $euroHTML = file_get_html($url); //pobranie danych ze strony euro
+function getEuroHTMLContent($url = 'https://www.euro.com.pl/laptopy-i-netbooki.bhtml'){
+    $euroHTML = file_get_html($url); 
 
-    $products = []; //deklarjemy pusta tablice produktow
+    $products = [];
 
-    foreach($euroHTML->find('.product-box') as $product){ //przechodzimy petlo po wszystkich elemetach html ktora zwrocila funkcja
-        $attribiutes = []; //pusta tablica w ktorej znajda sie poszczegone czesci opisu produktow
+    foreach($euroHTML->find('.product-box') as $product){ 
+        $attribiutes = []; 
 
         if(!count($product->find('.product-name')) || !count($product->find('.product-photo .photo-hover')) || !count($product->find('.price-normal'))){
-            continue; //sprawdzamy czy istnieje nazwa zdjecie i cena , jezeli nie istnieje ktorych z tych elementow to przechodzmy do kolejnej iteracji
+            continue; 
         }
 
-        $title = trim(preg_replace('/\s\s+/', ' ', $product->find('.product-name')[0]->plaintext)); //pobieramy tytul usuwamy z niego spacje przed i po 
-        $image = 'https://www.euro.com.pl' . $product->find('.product-photo .photo-hover')[0]->{'data-hover'}; //pobieramy link do zdjecia prduktu
-        $price = trim(preg_replace('/\s\s+/', ' ', $product->find('.price-normal')[0]->plaintext));//pobieramy cene i usuwamy spacje z pocztaku i konca
+        $title = trim(preg_replace('/\s\s+/', ' ', $product->find('.product-name')[0]->plaintext)); 
+        $image = 'https://www.euro.com.pl' . $product->find('.product-photo .photo-hover')[0]->{'data-hover'}; 
+        $price = trim(preg_replace('/\s\s+/', ' ', $product->find('.price-normal')[0]->plaintext));
 
-        foreach($product->find('.product-attributes .attributes-row') as $attribute){//iterujemy po poszczegolnych fragmentach opisu produktow 
-            array_push($attribiutes, trim(preg_replace('/\s\s+/', ' ', $attribute->plaintext)));  //i wkladmy do tablicy i usuwamy biale znaki
+        foreach($product->find('.product-attributes .attributes-row') as $attribute){ 
+            array_push($attribiutes, trim(preg_replace('/\s\s+/', ' ', $attribute->plaintext)));  
         }
 
         $shopUrl = 'https://www.euro.com.pl' . $product->find('.product-name a')[0]->href; //pobieramy link do produkty
@@ -26,10 +26,10 @@ function getEuroHTMLContent($url = 'https://www.euro.com.pl/laptopy-i-netbooki.b
     }
 
 
-    return $products; //zwracamy cala tablce produktow
+    return $products; 
 } 
 
-function getScreenSize($size){ //funkcja ktora przeksztalca wielkosc ekranu na taka ktora jest akceptowalna przez wyszukiwarke euro
+function getScreenSize($size){ 
     $sizes = [
         '10' => '11',
         '11' => '!11-2-13-1',
@@ -43,7 +43,7 @@ function getScreenSize($size){ //funkcja ktora przeksztalca wielkosc ekranu na t
     
     return $sizes[$size];
 }
-function getDiskCapacity($size){ //...wielkosc dysku
+function getDiskCapacity($size){ 
     $sizes = [
         '2' => '2-tb',
         '1' => '1-tb',
@@ -56,14 +56,13 @@ function getDiskCapacity($size){ //...wielkosc dysku
 }
 
 
-function generateURLForEuroScrapping($params){ //funkcja ktora generuje adres url
-    if(isset($_GET['shop']) && !in_array('euro', $_GET['shop'])){ //jesli w wyszukiwarce nie zostal wybrany sklep euro to funcja zwroci false
+function generateURLForEuroScrapping($params){ 
+    if(isset($_GET['shop']) && !in_array('euro', $_GET['shop'])){ 
         return false;
     }
 
-    $url = 'https://www.euro.com.pl/laptopy-i-netbooki{producent}{przekatna}{ram}{dysk}{matryca}.bhtml';//bazowy adres wyszukiwarki
+    $url = 'https://www.euro.com.pl/laptopy-i-netbooki{producent}{przekatna}{ram}{dysk}{matryca}.bhtml';
 
-    //sprawdzamy czy w wyszukiwarce zostal wybrany producent jezeli tak to dadajemy go do linku z pozostalymi wartosciami tak samo czyli ram itd
     if(isset($_GET['producent'])){
         $url = str_replace('{producent}', ",_" . $_GET['producent'], $url);
     }
@@ -98,5 +97,5 @@ function generateURLForEuroScrapping($params){ //funkcja ktora generuje adres ur
         $url = str_replace('{matryca}', "", $url);
     }
 
-    return $url; //zwracamy wygenerowany adres strony
+    return $url; 
 }
